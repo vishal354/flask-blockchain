@@ -22,6 +22,7 @@ def displayConnectPage():
     return render_template('connect.html')
 
 # Try to connect a node to another node in the network
+# Only a node in the blockchain network can invite a new node
 @app.route('/connect/connect', methods=['POST', 'GET'])
 def connect():
     port = request.form.get('port', type=int)
