@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request
 import requests
 import sys
+# from fileRunner import run_app_on_port
 
 # Initialise the port and app
 app = Flask(__name__)
@@ -105,3 +106,4 @@ def registerDoctor():
     return render_template('doctor_register.html')
 if __name__ == "__main__":
     app.run(port=port, debug=True)
+    # run_app_on_port(port)
