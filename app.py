@@ -87,19 +87,17 @@ def bulkRegister():
         "status": "SUCCESS"
     }
 
-@app.route('/doctor/register', methods = ['GET', 'POST'])
-def registerDoctor():
-    return render_template('doctor_register.html')
+# @app.route('/doctor/register', methods = ['GET', 'POST'])
+# def registerDoctor():
+#     return render_template('doctor_register.html')
 
-@app.route('/process_form', methods=['POST'])
-def process_form():
-    name = request.form.get('name')
-    email = request.form.get('email')
-
-    # You can now use the 'name' and 'email' variables for further processing.
-    # For example, you can store the data in a database, perform some logic, or render a response page.
-
-    return f"Received data: Name - {name}, Email - {email}"
+# @app.route('/process_form', methods=['POST'])
+# def process_form():
+#     name = request.form.get('name')
+#     email = request.form.get('email')
+#     # You can now use the 'name' and 'email' variables for further processing.
+#     # For example, you can store the data in a database, perform some logic, or render a response page.
+#     return f"Received data: Name - {name}, Email - {email}"
 
 if __name__ == "__main__":
     app.run(port=port, debug=True)

@@ -1,50 +1,57 @@
-# # Import the cryptography library
-# from cryptography.hazmat.backends import default_backend
-# from cryptography.hazmat.primitives import hashes, serialization
-# from cryptography.hazmat.primitives.asymmetric import ec
-# from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+# from charm.toolbox.pairinggroup import PairingGroup, ZR, G1, G2, GT, pair
+# from charm.toolbox.secretutil import SecretUtil
 
-# # Define the master public and private keys
-# master_private_key = b'\x9a\x7f'
-# master_public_key = b'\x3c\x4d'
+# # Initialize a bilinear pairing group
+# group = PairingGroup('SS512')
 
-# # Define the user's email as the public key
-# user_email = b"user@example.com"
+# # Define the master key
+# master_key = group.random(ZR)
 
-# # Derive the user's private key from the master keys and the user's email
-# kdf = HKDF (
-#     algorithm=hashes.SHA256 (),
-#     length=32,
-#     salt=master_public_key,
-#     info=user_email,
-#     backend=default_backend ()
-# )
-# user_private_value = int.from_bytes (kdf.derive (master_private_key), "big")
-# curve = ec.SECP256R1 ()
-# user_private_key = ec.derive_private_key (user_private_value, curve, default_backend ())
+# # Function to generate a user public key based on email (identity)
+# def generate_user_public_key(email):
+#     user_public_key = master_key ** group.hash(email)
+#     return user_public_key
 
-# # Get the user's public key from the user's private key
-# user_public_key = user_private_key.public_key ()
+# # Function to generate a user private key based on email (identity)
+# def generate_user_private_key(email):
+#     user_private_key = group.hash(email)
+#     return user_private_key
 
-# # Print the user's private and public keys in PEM format
-# print ("User's private key:")
-# print (user_private_key.private_bytes (
-#     encoding=serialization.Encoding.PEM,
-#     format=serialization.PrivateFormat.TraditionalOpenSSL,
-#     encryption_algorithm=serialization.NoEncryption ()
-# ).decode (),user_private_key.private_bytes (
-#     encoding=serialization.Encoding.PEM,
-#     format=serialization.PrivateFormat.TraditionalOpenSSL,
-#     encryption_algorithm=serialization.NoEncryption ()
-# ).decode ()=='MHcCAQEEIORZtYZg835YW7jNgULg9o16CuJuLFAO\
-#     rNgZpMwwnsXzoAoGCCqGSM49AwEHoUQDQgAEJdqROM4T6qt5GmxxPJBDCwfQw1DcFv6OAiGIwIFHuAEfK19btEfE\
-# RRLcsURCObcL7IZGQVomdklCMzdRmFy3aQ==')
-# print ("User's public key:")
-# print (user_public_key.public_bytes (
-#     encoding=serialization.Encoding.PEM,
-#     format=serialization.PublicFormat.SubjectPublicKeyInfo
-# ).decode (),user_public_key.public_bytes (
-#     encoding=serialization.Encoding.PEM,
-#     format=serialization.PublicFormat.SubjectPublicKeyInfo
-# ).decode ()=='MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJdqROM4T6qt5GmxxPJBDCwfQw1Dc\
-# Fv6OAiGIwIFHuAEfK19btEfERRLcsURCObcL7IZGQVomdklCMzdRmFy3aQ==')
+# # Function to encrypt a message
+# def encrypt(message, user_public_key):
+#     r = group.random(ZR)
+#     c1 = group.g ** r
+#     c2 = message * (user_public_key ** r)
+#     return c1, c2
+
+# # Function to decrypt a ciphertext
+# def decrypt(c1, c2, user_private_key):
+#     s = user_private_key
+#     c1_inverse = c1 ** -s
+#     message = c2 * c1_inverse
+#     return message
+
+# if __name__ == "__main__":
+#     # User's email (identity)
+#     user_email = "user@example.com"
+
+#     # Message to be encrypted
+#     message = group.random(GT)
+
+#     # Generate the user's public and private keys
+#     user_public_key = generate_user_public_key(user_email)
+#     user_private_key = generate_user_private_key(user_email)
+
+#     # Encrypt the message
+#     c1, c2 = encrypt(message, user_public_key)
+
+#     # Decrypt the ciphertext
+#     decrypted_message = decrypt(c1, c2, user_private_key)
+
+#     # Verify correctness
+#     assert decrypted_message == message
+#     print("Original Message:", message)
+#     print("Decrypted Message:", decrypted_message)
+
+# import charm
+# print(charm.__version__)

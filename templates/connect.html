@@ -6,10 +6,18 @@
 
 <div class="container" >
 <form action="/connect/connect" method="post">
-    <legend>Connect to this Port</legend>
+    <legend>Connect new Node</legend>
     <div class="mb-3">
+    <div >
+        <label for="inputName" class="form-label">Name</label>
+        <input type="text" class="form-control" id="inputName" name="name" required />
+    </div>
+    <div >
+        <label for="inputEmail" class="form-label">Email</label>
+        <input type="email" class="form-control" id="inputEmail" name="email" required autocomplete="off" />
+    </div>
     <label for="port" class="form-label">Port</label>
-    <input type="number" name="port" id="port" min="4000" max="65536" class="form-control"/>
+    <input type="number" name="port" id="port" min="8000" max="65536" class="form-control" required />
     </div>
     <button type="submit" class="btn btn-dark">Submit</button>
 </form>
