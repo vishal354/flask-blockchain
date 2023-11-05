@@ -1,3 +1,5 @@
+# BCT-IMDS -Trapdoor
+
 from charm.toolbox.pairinggroup import PairingGroup, ZR , G1, pair
 from charm.toolbox.hash_module import Hash
 
@@ -17,7 +19,7 @@ def dc_to_do(sk_k,qk_i):
     t_k = a_k * P
 
     # Compute the bilinear mapping from private key , public key 
-    e_result = group.pair(sk_k,qk_i)
+    e_result = pair(sk_k,qk_i)
 
     # Hashing operation
     hash_input = t_k + e_result
@@ -38,7 +40,7 @@ def do_to_dc(sk_i,qk_k):
 # step 2 and 4
 def correctness(t_k,sigma,sk_i,qk_k):
     # Compute the bilinear mapping from private key , public key 
-    e_result = group.pair(sk_i,qk_k)
+    e_result = pair(sk_i,qk_k)
 
     # Hashing operation
     hash_input = t_k + e_result
@@ -69,6 +71,7 @@ def select_keyword(word_list):
     random_word = random.choice(word_list)
 
     print("Randomly selected word:", random_word)
+    return random_word
 
 
 
