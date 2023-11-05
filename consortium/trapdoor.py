@@ -68,7 +68,7 @@ def select_keyword(word_list):
     # Selecting a random word from the list
     random_word = random.choice(word_list)
 
-print("Randomly selected word:", random_word)
+    print("Randomly selected word:", random_word)
 
 
 
